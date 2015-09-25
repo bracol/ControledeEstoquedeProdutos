@@ -31,6 +31,7 @@ public class EstoqueListActivity extends AppCompatActivity{
     private ListView listEstoque;
     private Estoque estoque;
     private List<Estoque> values;
+    private static int count = 0;
 
 
     @Override
@@ -49,25 +50,38 @@ public class EstoqueListActivity extends AppCompatActivity{
         super.onResume();
     }
 
-    public void manipulaAsync(){
-        new FindAllAsync(){
-            @Override
-            protected void onPreExecute() {
-                ProgressDialog dialog = new ProgressDialog(EstoqueListActivity.this);
-                dialog.show(EstoqueListActivity.this, "Por favor espere", "Executando comandos", true);
-            }
+    public List<Estoque> manipulaAsync(){
+        try {
+            values = new FindAllAsync(){
+                ProgressDialog dialog;
+                @Override
+                protected void onPreExecute() {
+                    //count++;
+                    //Toast.makeText(EstoqueListActivity.this, String.valueOf(count), Toast.LENGTH_LONG).show();
+                    dialog = ProgressDialog.show(EstoqueListActivity.this, "Por favor espere", "Executando comandos");
+                    super.onPreExecute();
+                }
 
-            @Override
-            protected void onPostExecute(List<Estoque> estoques) {
-                values = estoques;
-                super.onPostExecute(estoques);
-            }
-        };
+
+                @Override
+                protected void onPostExecute(List<Estoque> estoques) {
+                    dialog.dismiss();
+                    super.onPostExecute(estoques);
+                }
+                //pega valores do sync PostExecute.
+            }.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return values;
     }
 
 
     private void updateEstoqueList(){
-        manipulaAsync();
+        values = manipulaAsync();
         EstoqueListAdapter adapter = (EstoqueListAdapter) listEstoque.getAdapter();
         adapter.setItens(values);
         adapter.notifyDataSetChanged();
@@ -140,7 +154,7 @@ public class EstoqueListActivity extends AppCompatActivity{
     }
 
     private void bindList(){
-        manipulaAsync();
+        values = manipulaAsync();
         listEstoque = (ListView) findViewById(R.id.listViewEstoque);
         registerForContextMenu(listEstoque);
         listEstoque.setAdapter(new EstoqueListAdapter(this, values));

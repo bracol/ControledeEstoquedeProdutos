@@ -16,6 +16,11 @@ import java.util.List;
 public class FindAllAsync extends AsyncTask<Void, Void, List<Estoque>> {
     @Override
     protected List<Estoque> doInBackground(Void... params) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return EstoqueBusinessServices.findAll();
     }
 }

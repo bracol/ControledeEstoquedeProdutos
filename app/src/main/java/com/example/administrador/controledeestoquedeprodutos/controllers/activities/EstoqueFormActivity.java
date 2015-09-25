@@ -1,5 +1,6 @@
 package com.example.administrador.controledeestoquedeprodutos.controllers.activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -62,7 +63,22 @@ public class EstoqueFormActivity extends AppCompatActivity {
 
     private void onMenuOk() {
         binEstoque();
-        EstoqueBusinessServices.save(estoque);
+        new SaveAsync(){
+            ProgressDialog dialog;
+            @Override
+            protected void onPreExecute() {
+                dialog.show(EstoqueFormActivity.this, "Por favor espere", "Executando comandos", true);
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if(dialog.isShowing())
+                    dialog.dismiss();
+                super.onPostExecute(aVoid);
+            }
+        }.execute(estoque);
+
         finish();
     }
 
