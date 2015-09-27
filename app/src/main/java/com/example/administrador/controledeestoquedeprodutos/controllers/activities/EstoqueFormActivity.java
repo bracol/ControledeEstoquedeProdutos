@@ -8,8 +8,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.administrador.controledeestoquedeprodutos.R;
+import com.example.administrador.controledeestoquedeprodutos.model.async.SaveAsync;
 import com.example.administrador.controledeestoquedeprodutos.model.entidade.Estoque;
-import com.example.administrador.controledeestoquedeprodutos.model.servicos.EstoqueBusinessServices;
 
 
 /**
@@ -51,6 +51,26 @@ public class EstoqueFormActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void manipulaAsyncSave(){
+        new SaveAsync(){
+            ProgressDialog dialog;
+            @Override
+            protected void onPreExecute() {
+                dialog = new ProgressDialog(EstoqueFormActivity.this);
+                dialog.setMessage("Salvando dados...");
+                dialog.show();
+                super.onPreExecute();
+            }
+
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                dialog.dismiss();
+                super.onPostExecute(aVoid);
+            }
+        }.execute(estoque);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -63,32 +83,17 @@ public class EstoqueFormActivity extends AppCompatActivity {
 
     private void onMenuOk() {
         binEstoque();
-        new SaveAsync(){
-            ProgressDialog dialog;
-            @Override
-            protected void onPreExecute() {
-                dialog.show(EstoqueFormActivity.this, "Por favor espere", "Executando comandos", true);
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                if(dialog.isShowing())
-                    dialog.dismiss();
-                super.onPostExecute(aVoid);
-            }
-        }.execute(estoque);
-
+        manipulaAsyncSave();
         finish();
     }
 
     private void binEstoque() {
-        estoque.setNome(editTextName.getText().toString());
+        estoque.setNome(editTextDesc.getText().toString().equals("") ? "" : editTextName.getText().toString());
         estoque.setImg(1);
-        estoque.setDescricao(editTextDesc.getText().toString());
-        estoque.setQuantidade(Integer.parseInt(editTextQtd.getText().toString()));
-        estoque.setQtdMinimaEstoque(Integer.parseInt(editTextQtdMin.getText().toString()));
-        estoque.setValorUni(Double.parseDouble(editTextValor.getText().toString()));
+        estoque.setDescricao(editTextDesc.getText().toString().equals("") ? "" : editTextDesc.getText().toString());
+        estoque.setQuantidade(editTextQtd.getText().toString().equals("")  ? 0 : Integer.parseInt(editTextQtd.getText().toString()));
+        estoque.setQtdMinimaEstoque(editTextQtdMin.getText().toString().equals("")  ? 0 : Integer.parseInt(editTextQtdMin.getText().toString()));
+        estoque.setValorUni(editTextValor.getText().toString().equals("")  ? 0 : Double.parseDouble(editTextValor.getText().toString()));
     }
 
 

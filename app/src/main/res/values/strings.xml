@@ -5,14 +5,16 @@
     <string name="action_settings">Settings</string>
 
     //LABELS
-    <string name="lbl_nome">name</string>
+    <string name="lbl_nome">Name</string>
     <string name="lbl_confirm">Confirmation</string>
     <string name="lbl_yes"> Yes </string>
     <string name="lbl_no">No</string>
+    <string name="lbl_description">Description</string>
 
     //MSGS
     <string name="msg_delete">Are you sure to delete?</string>
     <string name="msg_delete_succesful">Delete Succesful</string>
+
 
 
 </resources>

@@ -2,10 +2,11 @@
 <resources>
 
     //LABELS
-    <string name="lbl_nome">name</string>
+    <string name="lbl_nome">Nome</string>
     <string name="lbl_confirm">Confirmação</string>
     <string name="lbl_yes"> Sim </string>
     <string name="lbl_no">No</string>
+    <string name="lbl_description">Descrição</string>
 
     /MSGS
     <string name="msg_delete">Tem certeza que quer deletar?</string>

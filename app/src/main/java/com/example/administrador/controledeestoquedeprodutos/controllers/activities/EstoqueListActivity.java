@@ -16,11 +16,12 @@ import android.widget.Toast;
 
 import com.example.administrador.controledeestoquedeprodutos.R;
 import com.example.administrador.controledeestoquedeprodutos.controllers.adapters.EstoqueListAdapter;
+import com.example.administrador.controledeestoquedeprodutos.model.async.FindAllAsync;
 import com.example.administrador.controledeestoquedeprodutos.model.entidade.Estoque;
 import com.example.administrador.controledeestoquedeprodutos.model.servicos.EstoqueBusinessServices;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Administrador on 25/09/2015.
@@ -30,8 +31,6 @@ public class EstoqueListActivity extends AppCompatActivity{
     private static final String PARAM_ESTOQUE = "ESTOQUE";
     private ListView listEstoque;
     private Estoque estoque;
-    private List<Estoque> values;
-    private static int count = 0;
 
 
     @Override
@@ -46,46 +45,34 @@ public class EstoqueListActivity extends AppCompatActivity{
 
     @Override
     protected void onResume() {
-        updateEstoqueList();
+        manipulaAsyncAtualizar();
         super.onResume();
     }
 
-    public List<Estoque> manipulaAsync(){
-        try {
-            values = new FindAllAsync(){
+    public void manipulaAsyncAtualizar(){
+            new FindAllAsync(){
                 ProgressDialog dialog;
                 @Override
                 protected void onPreExecute() {
-                    //count++;
-                    //Toast.makeText(EstoqueListActivity.this, String.valueOf(count), Toast.LENGTH_LONG).show();
-                    dialog = ProgressDialog.show(EstoqueListActivity.this, "Por favor espere", "Executando comandos");
+                    dialog = new ProgressDialog(EstoqueListActivity.this);
+                    dialog.setMessage("Atualizando dados...");
+                    dialog.show();
                     super.onPreExecute();
                 }
 
 
                 @Override
                 protected void onPostExecute(List<Estoque> estoques) {
+                    EstoqueListAdapter adapter = (EstoqueListAdapter) listEstoque.getAdapter();
+                    adapter.setItens(estoques);
+                    adapter.notifyDataSetChanged();
                     dialog.dismiss();
                     super.onPostExecute(estoques);
                 }
-                //pega valores do sync PostExecute.
-            }.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return values;
+            }.execute();
     }
 
 
-    private void updateEstoqueList(){
-        values = manipulaAsync();
-        EstoqueListAdapter adapter = (EstoqueListAdapter) listEstoque.getAdapter();
-        adapter.setItens(values);
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,7 +124,7 @@ public class EstoqueListActivity extends AppCompatActivity{
                         EstoqueBusinessServices.delete(estoque);
                         estoque = null;
                         String message = (getString(R.string.msg_delete_succesful));
-                        updateEstoqueList();
+                        manipulaAsyncAtualizar();
                         Toast.makeText(EstoqueListActivity.this, message, Toast.LENGTH_LONG).show();
                     }
                 })
@@ -154,10 +141,11 @@ public class EstoqueListActivity extends AppCompatActivity{
     }
 
     private void bindList(){
-        values = manipulaAsync();
+        List<Estoque> values = new ArrayList<>();
         listEstoque = (ListView) findViewById(R.id.listViewEstoque);
         registerForContextMenu(listEstoque);
         listEstoque.setAdapter(new EstoqueListAdapter(this, values));
+        manipulaAsyncAtualizar();
         listEstoque.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
