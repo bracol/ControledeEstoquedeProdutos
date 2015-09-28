@@ -94,10 +94,10 @@ public class EstoqueService {
             //lendo json
             //ObjectMapper é que da acesso a biblioteca do jackson
             ObjectMapper objectMapper = new ObjectMapper();
+            estoque2 = objectMapper.readValue(inputStream, Estoque.class);
             objectMapper.writeValue(outputStream, estoque);
 
 
-            estoque2 = objectMapper.readValue(inputStream, Estoque.class);
 
 
 
