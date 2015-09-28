@@ -15,11 +15,14 @@ public class EstoqueBusinessServices {
     }
 
     public static void save(Estoque estoque){
-        EstoqueRepository.save(estoque);
+        Integer id = EstoqueRepository.getIdByWebId(estoque.getWeb_id());
+        if(id > 0)
+            estoque.set_id(id);
+         EstoqueRepository.save(estoque);
     }
 
     public static void delete(Estoque selectEstoque) {
-        EstoqueRepository.delete(selectEstoque.getId());
+        EstoqueRepository.delete(selectEstoque.get_id());
     }
 
 }

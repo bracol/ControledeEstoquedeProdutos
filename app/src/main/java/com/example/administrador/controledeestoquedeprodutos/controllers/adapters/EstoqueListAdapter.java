@@ -46,17 +46,20 @@ public class EstoqueListAdapter extends BaseAdapter {
         View estoqueList = context.getLayoutInflater().inflate(R.layout.list_item_estoque, parent, false);
 
         View viewImg = estoqueList.findViewById(R.id.viewImgEstoque);
-        String cor = "#000000";
-        viewImg.setBackgroundColor(android.graphics.Color.parseColor(cor));
+        //String cor = "#000000";
+        //viewImg.setBackgroundColor(android.graphics.Color.parseColor(cor));
 
         TextView textViewName = (TextView) estoqueList.findViewById(R.id.textViewNome);
-        textViewName.setText(estoque.getNome().toString());
+        if(estoque.getNome() != null)
+            textViewName.setText(estoque.getNome().toString());
 
         TextView textViewQtd = (TextView) estoqueList.findViewById(R.id.textViewQtd);
-        textViewQtd.setText(estoque.getQuantidade().toString());
+        if(estoque.getQuantidade() != null)
+            textViewQtd.setText(estoque.getQuantidade().toString());
 
         TextView textViewValor = (TextView) estoqueList.findViewById(R.id.textViewValor);
-        textViewValor.setText(String.valueOf(estoque.getValorUni()));
+        if(estoque.getValorUni() != null)
+            textViewValor.setText(String.valueOf(estoque.getValorUni()));
 
         return estoqueList;
     }

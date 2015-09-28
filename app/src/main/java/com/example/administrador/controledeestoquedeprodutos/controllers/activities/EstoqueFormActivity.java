@@ -88,12 +88,12 @@ public class EstoqueFormActivity extends AppCompatActivity {
     }
 
     private void binEstoque() {
-        estoque.setNome(editTextDesc.getText().toString().equals("") ? "" : editTextName.getText().toString());
-        estoque.setImg(1);
+        estoque.setNome(editTextName.getText().toString().equals("") ? "" : editTextName.getText().toString());
+        estoque.setImg("");
         estoque.setDescricao(editTextDesc.getText().toString().equals("") ? "" : editTextDesc.getText().toString());
-        estoque.setQuantidade(editTextQtd.getText().toString().equals("")  ? 0 : Integer.parseInt(editTextQtd.getText().toString()));
-        estoque.setQtdMinimaEstoque(editTextQtdMin.getText().toString().equals("")  ? 0 : Integer.parseInt(editTextQtdMin.getText().toString()));
-        estoque.setValorUni(editTextValor.getText().toString().equals("")  ? 0 : Double.parseDouble(editTextValor.getText().toString()));
+        estoque.setQuantidade(editTextQtd.getText().toString().equals("") ? 0 : Long.parseLong(editTextQtd.getText().toString()));
+        estoque.setQtdMinimaEstoque(editTextQtdMin.getText().toString().equals("") ? 0 : Long.parseLong(editTextQtdMin.getText().toString()));
+        estoque.setValorUni(editTextValor.getText().toString().equals("") ? 0 : Double.parseDouble(editTextValor.getText().toString()));
     }
 
 

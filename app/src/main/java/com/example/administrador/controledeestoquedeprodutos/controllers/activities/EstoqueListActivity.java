@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.administrador.controledeestoquedeprodutos.R;
 import com.example.administrador.controledeestoquedeprodutos.controllers.adapters.EstoqueListAdapter;
 import com.example.administrador.controledeestoquedeprodutos.model.async.FindAllAsync;
+import com.example.administrador.controledeestoquedeprodutos.model.async.FindWebProducts;
 import com.example.administrador.controledeestoquedeprodutos.model.entidade.Estoque;
 import com.example.administrador.controledeestoquedeprodutos.model.servicos.EstoqueBusinessServices;
 
@@ -38,7 +39,7 @@ public class EstoqueListActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estoque_list);
         bindList();
-
+        getTasksWEb();
     }
 
 
@@ -155,5 +156,31 @@ public class EstoqueListActivity extends AppCompatActivity{
             }
         });
     }
+
+    public void getTasksWEb(){
+        new FindWebProducts(){
+
+            ProgressDialog dialog;
+            @Override
+            protected void onPreExecute() {
+                dialog = new ProgressDialog(EstoqueListActivity.this);
+                dialog.setMessage("Atualizando dados...");
+                dialog.show();
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(List<Estoque> estoques) {
+                for(Estoque e : estoques) {
+                    EstoqueBusinessServices.save(e);
+                }
+                manipulaAsyncAtualizar();
+                dialog.dismiss();
+                super.onPostExecute(estoques);
+            }
+        }.execute();
+    }
+
+
 
 }
