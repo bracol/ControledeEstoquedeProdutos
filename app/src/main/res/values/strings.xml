@@ -10,6 +10,7 @@
     <string name="lbl_yes"> Yes </string>
     <string name="lbl_no">No</string>
     <string name="lbl_description">Description</string>
+    <string name="lbl_date">Date</string>
 
     //MSGS
     <string name="msg_delete">Are you sure to delete?</string>

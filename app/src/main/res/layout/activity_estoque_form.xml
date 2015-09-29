@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="QTD MIN"
+            android:hint="QTDMIN"
             />
 
         <EditText
@@ -47,7 +47,16 @@
             android:hint="Valor"
             />
 
+
+
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/lbl_date"
+        />
 
 
 

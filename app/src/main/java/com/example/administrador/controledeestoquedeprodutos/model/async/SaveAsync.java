@@ -17,8 +17,12 @@ public class SaveAsync  extends AsyncTask<Estoque, ProgressDialog, Void> {
     @Override
     protected Void doInBackground(Estoque... params) {
 
-        EstoqueService.postEstoque(params[0]);
         EstoqueBusinessServices.save(params[0]);
+        /*Estoque estoque2 = EstoqueService.postEstoque(params[0]);
+
+        if(estoque2 != null)
+            EstoqueBusinessServices.delete(params[0]);*/
+
         return null;
     }
 }

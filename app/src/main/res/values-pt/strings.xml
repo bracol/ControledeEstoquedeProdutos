@@ -7,6 +7,7 @@
     <string name="lbl_yes"> Sim </string>
     <string name="lbl_no">No</string>
     <string name="lbl_description">Descrição</string>
+    <string name="lbl_date">Data</string>
 
     /MSGS
     <string name="msg_delete">Tem certeza que quer deletar?</string>

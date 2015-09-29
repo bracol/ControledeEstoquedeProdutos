@@ -22,6 +22,7 @@ public class EstoqueFormActivity extends AppCompatActivity {
     private EditText editTextQtd;
     private EditText editTextQtdMin;
     private EditText editTextValor;
+    private EditText editTextData;
     private Estoque estoque;
 
     @Override
@@ -35,6 +36,7 @@ public class EstoqueFormActivity extends AppCompatActivity {
         bindEditTextQtd();
         bindEditTextQtdMin();
         bindEditTextValor();
+        bindEditTextData();
     }
 
     private void initEstoque() {
@@ -94,13 +96,14 @@ public class EstoqueFormActivity extends AppCompatActivity {
         estoque.setQuantidade(editTextQtd.getText().toString().equals("") ? 0 : Long.parseLong(editTextQtd.getText().toString()));
         estoque.setQtdMinimaEstoque(editTextQtdMin.getText().toString().equals("") ? 0 : Long.parseLong(editTextQtdMin.getText().toString()));
         estoque.setValorUni(editTextValor.getText().toString().equals("") ? 0 : Double.parseDouble(editTextValor.getText().toString()));
+        estoque.setDate(editTextData.getText().toString().equals("") ? 0 :  Long.parseLong(editTextData.getText().toString()));
     }
-
 
     private void bindEditTextValor() {
         editTextValor = (EditText) findViewById(R.id.editTextValor);
         editTextValor.setText(estoque.getValorUni() == null ? "" : estoque.getValorUni().toString());
     }
+
 
     private void bindEditTextQtdMin() {
         editTextQtdMin = (EditText) findViewById(R.id.editTextQtdMinima);
@@ -121,5 +124,10 @@ public class EstoqueFormActivity extends AppCompatActivity {
     private void bindEditTextName() {
         editTextName = (EditText) findViewById(R.id.editTextNome);
         editTextName.setText(estoque.getNome() == null ? "" : estoque.getNome());
+    }
+
+    private void bindEditTextData() {
+        editTextData = (EditText) findViewById(R.id.editTextData);
+        editTextData.setText(estoque.getDate() == null ? "" : estoque.getDate().toString());
     }
 }

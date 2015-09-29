@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.administrador.controledeestoquedeprodutos.R;
 import com.example.administrador.controledeestoquedeprodutos.controllers.adapters.EstoqueListAdapter;
+import com.example.administrador.controledeestoquedeprodutos.controllers.adapters.RecycleAdapter;
 import com.example.administrador.controledeestoquedeprodutos.model.async.FindAllAsync;
 import com.example.administrador.controledeestoquedeprodutos.model.async.FindWebProducts;
 import com.example.administrador.controledeestoquedeprodutos.model.entidade.Estoque;
@@ -32,14 +35,17 @@ public class EstoqueListActivity extends AppCompatActivity{
     private static final String PARAM_ESTOQUE = "ESTOQUE";
     private ListView listEstoque;
     private Estoque estoque;
+    private RecyclerView myRecyclerView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_estoque_list);
+        //anterior
+        //setContentView(R.layout.activity_estoque_list);
+        setContentView(R.layout.activity_product_list);
         bindList();
-        getTasksWEb();
+        //getTasksWEb();
     }
 
 
@@ -143,7 +149,20 @@ public class EstoqueListActivity extends AppCompatActivity{
 
     private void bindList(){
         List<Estoque> values = new ArrayList<>();
-        listEstoque = (ListView) findViewById(R.id.listViewEstoque);
+         myRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        myRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        //mLayoutManager = new LinearLayoutManager(this);
+        //myRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        RecycleAdapter adapter = new RecycleAdapter(values);
+        myRecyclerView.setAdapter(adapter);
+        /*listEstoque = (ListView) findViewById(R.id.listViewEstoque);
         registerForContextMenu(listEstoque);
         listEstoque.setAdapter(new EstoqueListAdapter(this, values));
         manipulaAsyncAtualizar();
@@ -154,7 +173,7 @@ public class EstoqueListActivity extends AppCompatActivity{
                 estoque = adapter.getItem(position);
                 return false;
             }
-        });
+        });*/
     }
 
     public void getTasksWEb(){

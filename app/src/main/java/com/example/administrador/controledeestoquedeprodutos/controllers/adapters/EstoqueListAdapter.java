@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,11 +44,11 @@ public class EstoqueListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Estoque estoque = getItem(position);
-        View estoqueList = context.getLayoutInflater().inflate(R.layout.list_item_estoque, parent, false);
+        View estoqueList = context.getLayoutInflater().inflate(R.layout.list_item_product, parent, false);
 
-        View viewImg = estoqueList.findViewById(R.id.viewImgEstoque);
-        //String cor = "#000000";
-        //viewImg.setBackgroundColor(android.graphics.Color.parseColor(cor));
+        ImageView viewImg = (ImageView) estoqueList.findViewById(R.id.imgViewProduct);
+        String cor = "#000000";
+        viewImg.setBackgroundColor(android.graphics.Color.parseColor(cor));
 
         TextView textViewName = (TextView) estoqueList.findViewById(R.id.textViewNome);
         if(estoque.getNome() != null)
